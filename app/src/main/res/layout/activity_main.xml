@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -7,13 +7,36 @@
     tools:context="llapps.com.viewpagecarddemo.MainActivity"
     android:clipChildren="false"
     android:gravity="center"
+    android:weightSum="5"
+    android:orientation="vertical"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="单个图片"
+            android:onClick="onClick"
+            />
+        <Button
+            android:id="@+id/btn_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="图片带有文字"
+            android:onClick="onClick"
+            />
+
+    </LinearLayout>
+
 
     <android.support.v4.view.ViewPager
+        android:layout_weight="4"
         android:id="@+id/viewpage"
         android:layout_width="250dp"
-        android:layout_height="300dp"
-        android:text="Hello World!"
+        android:layout_height="0dp"
         android:clipChildren="false"
 
         android:clipToPadding="false"
@@ -21,6 +44,5 @@
         android:paddingBottom="24dp"
         android:paddingLeft="15dp"
         android:paddingRight="20dp"
-
         />
-</RelativeLayout>
+</LinearLayout>

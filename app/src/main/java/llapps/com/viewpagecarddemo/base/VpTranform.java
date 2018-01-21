@@ -8,8 +8,9 @@ import android.view.View;
  */
 
 public class VpTranform implements ViewPager.PageTransformer {
-    private float MIN_SCALE = 0.7f;
+    private float MIN_SCALE = 0.8f;
     private float MIN_ALPHA = 0.5f;
+    private float MIN_TRANSLATE = 0.5f;
 
     @Override
     public void transformPage(View page, float position) {
@@ -23,13 +24,12 @@ public class VpTranform implements ViewPager.PageTransformer {
             curScale = Math.max(curScale, MIN_ALPHA);
             float curAlpha = (1 - Math.abs(position))*(1-MIN_ALPHA) + MIN_ALPHA;
             curAlpha = Math.max(curScale, curAlpha);
-            if (position <0)
-                page.setAlpha(curAlpha);
-            else
-                page.setAlpha(curAlpha);
-
+             page.setAlpha(curAlpha);
             page.setScaleX(curScale);
             page.setScaleY(curScale);
+            float curTranZ = (1 - Math.abs(position))*(1-MIN_ALPHA) + MIN_ALPHA;
+            curAlpha = Math.max(curTranZ, MIN_ALPHA);
+            page.setTranslationZ(curTranZ);
 
         }
 
