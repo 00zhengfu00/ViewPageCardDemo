@@ -40,6 +40,14 @@ public class MainActivity extends AppCompatActivity {
                 imageView.setImageResource(data);
             }
         };
+        baseVPAdapter.setPageClickInterface(new BaseVPAdapter.PageClickInteface() {
+            @Override
+            public void onClick(View view) {
+                int positon = (int) view.getTag();
+                viewPager.setCurrentItem(positon);
+
+            }
+        });
         viewPager.setOffscreenPageLimit(4);
         viewPager.setPageTransformer(false, new VpTranform());
         viewPager.setAdapter(baseVPAdapter);

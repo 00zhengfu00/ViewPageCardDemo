@@ -1,6 +1,7 @@
 package llapps.com.viewpagecarddemo.base;
 
 import android.content.Context;
+import android.support.v4.util.LruCache;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -8,23 +9,34 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
+import java.util.Map;
 import java.util.WeakHashMap;
 
 /**
  * Created by SongUp on 2018/1/21.
  */
 
-public abstract class BaseVPAdapter<T> extends PagerAdapter {
+public abstract class BaseVPAdapter<T> extends PagerAdapter implements View.OnClickListener{
     private List<T> dataList;
-    private WeakHashMap<Integer, View> viewWeakHashMap;
+    //存放到Lrucache，用于清理不常用， 其中view.getTag key得到这是第几个View
+    private LruCache<Integer, View> viewWeakHashMap;
     private LayoutInflater layoutInflater;
     private int converId;
+    private PageClickInteface pageClickInterface;
+
+    public PageClickInteface getPageClickInterface() {
+        return pageClickInterface;
+    }
+
+    public void setPageClickInterface(PageClickInteface pageClickInterface) {
+        this.pageClickInterface = pageClickInterface;
+    }
 
     public BaseVPAdapter(Context context, int convertId, List<T> dataList) {
         this.dataList = dataList;
         this.converId = convertId;
         layoutInflater = LayoutInflater.from(context);
-        viewWeakHashMap = new WeakHashMap<>();
+        viewWeakHashMap = new LruCache<>(20);
     }
 
     @Override
@@ -57,10 +69,22 @@ public abstract class BaseVPAdapter<T> extends PagerAdapter {
         if (view == null){
             view = layoutInflater.inflate(converId, container, false);
         }
+        view.setTag(position);
+        view.setOnClickListener(this);
         return view;
     }
     public abstract void bindView(View view, T data);
 
+
+    @Override
+    public void onClick(View v) {
+        if (pageClickInterface != null){
+            pageClickInterface.onClick(v);
+        }
+    }
+    public interface PageClickInteface{
+        void onClick(View view);
+    }
 
 
 }
